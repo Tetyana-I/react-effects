@@ -1,0 +1,12 @@
+.Deck-btn {
+    background-color: olive;
+    color: white;
+    font-size: 1.2em;
+    margin-top: 2em;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.Deck-btn:hover {
+    background-color: rgb(83, 83, 1);
+}
