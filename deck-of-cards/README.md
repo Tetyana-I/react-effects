@@ -3,6 +3,12 @@
 
 Every button click, display a new card, until there are no cards left in the deck. If you try to draw when there are no cards remaining, an alert message appears on the screen with the text “Error: no cards remaining!”.
 
+This application uses 3 components:
+
+- *App* renders the *Deck* component.
+- *Deck* creates a new deck, shows a button that let us draw a card from the deck; renders a *Card* component. 
+- *Card* displays a card image. 
+
 ### Technologies used
 
 React, Create React App, HTML, CSS
