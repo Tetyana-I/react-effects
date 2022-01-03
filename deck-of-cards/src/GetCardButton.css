@@ -1,0 +1,13 @@
+.GetCardButton {
+    background-color: olive;
+    color: white;
+    font-size: 1.5em;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.GetCardButton:hover {
+    background-color: darkolivegreen;
+}
