@@ -15,23 +15,24 @@ function Deck () {
 
     async function fetchCard() {
         try {
-            const cardResult = await axios.get(`http://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`);
-            const cardData = cardResult.data.cards[0];
             if (card.left_cards === 0) {
-                alert('Error: no cards remaining!')
+                alert('Error: no cards remaining!');
             }
-            setCard({
-                image: cardData.image,
-                value: cardData.value,
-                suit: cardData.suit,
-                left_cards: cardResult.data.remaining
-             });
+            else {
+                const cardResult = await axios.get(`http://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`);
+                const cardData = cardResult.data.cards[0];
+                setCard({
+                    image: cardData.image,
+                    value: cardData.value,
+                    suit: cardData.suit,
+                    left_cards: cardResult.data.remaining
+                })};
         }
         catch(e) {
             console.log("Fetching Problem", e);
         }
     }
-
+    // runs only after the first page load: get a new deck of card and save its Id in state
     useEffect(function fetchDeckOnAfterFirstRender() {
         async function fetchDeck() {
             try {
