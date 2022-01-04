@@ -6,7 +6,7 @@ These draws will continue until the next button press, or until the deck has bee
 This application uses 3 components:
 
 - *App* renders the *Deck* component.
-- *Deck* creates a new deck, shows a button that let us draw a card from the deck; renders a *Card* component. 
+- *Deck* creates a new deck and shows a button that let us start and stop drawing cards from the deck until the deck is exhausted; renders a *Card* component. 
 - *Card* displays a card image. 
 
 ### Technologies used
