@@ -9,8 +9,9 @@ import Card from './Card';
 function Deck () {
     const [deckId, setDeckId] = useState(null);
     const [card, setCard] = useState({});
-    const [cardsAvailable, setCardsAvailable] = useState(true); // true - can start fetching cards, false - can stop fetching
+    const [cardsAreDrawing, setCardsAreDrawing] = useState(false); // true - can start fetching cards, false - can stop fetching
     const timerId = useRef();
+    const remaining = useRef();
     
     // runs only after the first page load: get a new deck of card and save its id in state
     useEffect(function fetchDeckOnAfterFirstRender() {
@@ -27,46 +28,47 @@ function Deck () {
     }, []);
 
     // function allows to start/stop fetching cards from the deck (one card per second)
-    function toggleBtn() {
-        setCardsAvailable(cardsAvailable => !cardsAvailable);
-        if (cardsAvailable) {
-            timerId.current = setInterval(() => {
-                async function fetchCard() {
-                    try {
-                        // why I cannot see alert message and card state ???
-                        console.log("Left:", card.left_cards);
-                        if (card.left_cards === 0) {
-                            alert('Error: no cards remaining!');
+   function toggleBtn() {
+        setCardsAreDrawing(cardsAreDrawing => !cardsAreDrawing)
+    };
+    
+    useEffect (function fetchingCardPerSecond() {
+        if (cardsAreDrawing) {
+                timerId.current = setInterval(() => {
+                    async function fetchCard() {
+                        try {
+                            console.log("Cards left:", remaining.current);
+                            if (remaining.current === 0) {
+                                alert('Error: no cards remaining!');
+                                console.log("Unmount ID timer", timerId.current);
+                                clearInterval(timerId.current);
+                            }
+                            else {
+                                const cardResult = await axios.get(`http://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`);
+                                const cardData = cardResult.data;
+                                setCard(cardData.cards[0]);
+                                remaining.current = cardData.remaining;
+                            };
                         }
-                        else {
-                            const cardResult = await axios.get(`http://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`);
-                            const cardData = cardResult.data.cards[0];
-                            setCard({
-                                image: cardData.image,
-                                value: cardData.value,
-                                suit: cardData.suit,
-                                left_cards: cardResult.data.remaining
-                            })};
-                    }
-                    catch(e) {
-                        console.log("Fetching Problem", e);
-                        console.log("Unmount ID timer", timerId.current);
-                        clearInterval(timerId.current);
-                    }
-                };
-                fetchCard(); 
-            }, 1000);
-        } else {
+                        catch(e) {
+                            console.log("Fetching Problem", e);
+                            console.log("Unmount ID timer", timerId.current);
+                            clearInterval(timerId.current);
+                        }
+                    };
+                    fetchCard(); 
+                }, 1000);
+        } 
+        else {
             console.log("Unmount ID timer", timerId.current);
             clearInterval(timerId.current);
         }
-
-    }
+    }, [cardsAreDrawing]);
 
     return (
         <div>
            <button className="Deck-btn" onClick={ toggleBtn }>
-               {cardsAvailable ? "Start drawing!" : "Stop drawing"}
+               {cardsAreDrawing ? "Stop drawing" : "Start drawing!"}
             </button>
            <Card image = { card.image } />
         </div>
