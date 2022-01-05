@@ -27,11 +27,12 @@ function Deck () {
         fetchDeck();
     }, []);
 
-    // function allows to start/stop fetching cards from the deck (one card per second)
+    // function toggle state of fetching/not fetching card
    function toggleBtn() {
         setCardsAreDrawing(cardsAreDrawing => !cardsAreDrawing)
     };
     
+    // function allows to fetch cards from the deck (one card per second)
     useEffect (function fetchingCardPerSecond() {
         if (cardsAreDrawing) {
                 timerId.current = setInterval(() => {

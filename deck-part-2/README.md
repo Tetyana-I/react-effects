@@ -17,11 +17,18 @@ External API: *Deck of Cards* http://deckofcardsapi.com/
 
 ### Local Deployment
 
-1. Create an application directory 
+1. Create and switch to an application directory 
+
+    `mkdir react-effects`
+    `cd react-effects`
 
 2. Clone Repository
 
+    https://github.com/Tetyana-I/react-effects.git
+
 3. Switch to the application directory
+
+    `cd deck-part-2`
 
 4. Create dependencies
 
